@@ -1,7 +1,36 @@
 
 # Presentation
 
-Ideas
+
+
+## Outline
+
+Give overview of ASP.NET Core
+  What is it?
+  Why was it created?
+
+Mac OS X
+  Setup your env
+  Create a new console app
+  Turn it into a basic web app
+  Turn it into a basic MVC app
+  Show debugging in VS Code
+
+Windows
+  Start with VS Community installation
+    Or can I show how quickly VS 15 will install now??? That would be pretty cool...
+  What else needs to be installed?
+  Show the experience of creating a new project
+
+Features to show
+  Built-in DI
+  Combined MVC and Web API surface
+  Tag helpers
+
+
+
+
+## Ideas
 
 Give quick overview of what ASP.NET Core is and why it was created
 
@@ -48,6 +77,9 @@ Now...
   Then convert the project into a web app
   Then add support for MVC
 
+Middleware overview
+  Create 2-3 examples of arbitrary custom middleware to show how the request flows down and up through the middleware
+  Use source code for existing ASP.NET Core middleware and set breakpoints in those methods to show how the execution flows???
 
 
 
