@@ -155,22 +155,47 @@ When publishing, the output is made as portable as possible
 You can also publishing your app for a specific platform
   Your output will include an exe and everything you need to run your app (including .NET Core itself)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Publishing ASP.NET Core Applications
 
 https://channel9.msdn.com/Events/dotnetConf/2016/Publishing-ASPNET-Core-Applications
+
+How Visual Studio Publishing Works
+
+With ASP.NET 4.6...
+  Publishing was defined as a set of MSBuild tasks and targets
+  To extend the publish process in any way you had to understand MSBuild
+
+For .NET Core, it was decided that they needed a simpler model
+
+Publishing from VS looks like...
+  Publish dialog
+  `dotnet build`
+  `dotnet publish`
+  PowerShell script
+
+The VS Publish dialog is not complete at this point
+  More features are coming
+
+Two files are generated
+  The `.pubxml` file contains the properties that are passed to the PowerShell script
+  The `.ps1` file is the PowerShell script
+
+The PowerShell script can be modified to your liking
+  This wasn't possible with ASP.NET 4.6
+
+When you publish from VS...
+  You can see the two calls that VS makes to the command line in the Output window
+  If you're creating your own build process, you can use the Output window content as a jumping off point
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -344,7 +369,13 @@ Docker support
 
 
 
+## .NET Core
 
+Type `dotnet` at a command prompt to get information about .NET Core
+
+On Windows .NET Core is installed at `C:\Program Files\dotnet\`
+
+You can see the versions that you have installed withing the `sdk` folder
 
 
 
@@ -359,6 +390,13 @@ Docker support
 
 
 ## Questions
+
+What is the ".NET Core Shared Framework Host"?
+  Is this the CLR?
+
+What is the "Shared Framework"?
+  Sounds like there's a "Shared Framework Host" and "Shared Framework"
+  Is the "Shared Framework" the BCL?
 
 What loggers does .NET Core or ASP.NET Core support?
   Console logger (logs to the console... does it only work if you're running from the console?)
@@ -391,6 +429,15 @@ If you build and deploy an ASP.NET Core app that targets .NET Framework...
   Do you get access to things that aren't available in .NET Core?
   For instance, WCF?
 
+Where are .NET Core files stored on Windows and Mac OS X???
+
+The `Publish-AspNet` PS Module is used to do the actual deployment to the server
+  You could publish to more than one target by calling `Publish-AspNet` more than once
+
+
+
+
+
 
 
 
@@ -402,17 +449,11 @@ If you build and deploy an ASP.NET Core app that targets .NET Framework...
 
 
 
+
+
 Read up on HttpContext.Features
   This looks like a collection of request/response features???
   How does middleware work with this collection???
-
-
-
-
-
-
-Create new Windows 10 VM (using Virtual Box or Fusion?)
-  Install VS Community and Update 3
 
 Try using Docker from my Surface Book
   Use that machine for showing a demo of Docker???
@@ -421,16 +462,17 @@ Try using Docker from my Surface Book
 
 
 
-Test using VS 15 Preview
-  https://blogs.msdn.microsoft.com/visualstudio/2016/08/22/visual-studio-15-preview-4/
-
 Test publishing a simple app using `dotnet publish`
   Can I publish to a local IIS???
     What does it take to get an ASP.NET Core app up and running on IIS???
   Can I publish to Azure???
   Can I get an app running in Docker???
 
-What does it take to publish a class library to NuGet???
+Test `dotnet pack`
+  What does it take to publish a class library to NuGet???
+
+Test `dotnet test`
+  What does it take to add unit tests to your project?
 
 Test using Bash on Windows
 
@@ -464,8 +506,20 @@ Look into how to set environment variables from the command line and from VS
 
 
 
+Source code for the NuGet package and samples for using Webpack with asp.net core applications
+https://github.com/xabikos/aspnet-webpack
 
+A Real-World React.js Setup for ASP.NET Core and MVC5
+https://www.simple-talk.com/dotnet/asp-net/a-real-world-react-js-setup-for-asp-net-core-and-mvc5/
 
+A Practical Approach to Cache Busting with Webpack and ASP.NET Core 1.0
+https://scottaddie.com/2015/12/14/a-practical-approach-to-cache-busting-with-webpack-and-asp-net-5/
+
+ASP.NET CORE, ANGULAR2 WITH WEBPACK AND VISUAL STUDIO
+https://damienbod.com/2016/06/12/asp-net-core-angular2-with-webpack-and-visual-studio/
+
+Angular 2, React, and Knockout apps on ASP.NET Core
+http://blog.stevensanderson.com/2016/05/02/angular2-react-knockout-apps-on-aspnet-core/
 
 ASP.NET Core and .NET Core Overview
 https://weblog.west-wind.com/posts/2016/Jun/13/ASPNET-Core-and-NET-Core-Overview

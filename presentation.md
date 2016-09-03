@@ -29,15 +29,38 @@ Features to show
 
 
 
-
 ## Ideas
 
 Give quick overview of what ASP.NET Core is and why it was created
+  Why Project K was started
+    Benefits and goals
+  The evolution to DNX
+  The change to .NET Core
+
+
+
+
+
 
 Create a new project using command line on Windows
   Show dotnet CLI commands
+  Start with creating console app
+    Show what's in the project?
   Show using VS Code on Windows
-  Include simple data model and EF data store?
+  Convert the console app to a web app
+  Update the web app to an MVC app
+  Dig into how middleware works
+  Dig into how services work
+
+OR
+
+Create a new project using VS
+  Show the two different project types
+  What is different between targeting .NET Core or the .NET Framework?
+
+
+
+
 
 Send the project over to the Mac for the designer to update
   Show how the project and data layer can be used on a Mac
@@ -50,6 +73,12 @@ Send the project over to the Mac for the designer to update
 Send the project back to Windows for the dev to use VS to complete the API implementation
   Show how to use JavaScript services to run a Node.js service on the server
   Deploy the project to Azure Web App?
+
+Show how to create a project on the Mac
+  Show using the `dotnet` CLI
+    Limited templates at this point
+  Show using Yeoman
+    More options exist here
 
 Let's remind ourselves what an ASP.NET 4.6 project looks like
   Poll the audience...
