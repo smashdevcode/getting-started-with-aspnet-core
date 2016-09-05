@@ -187,6 +187,10 @@ When you publish from VS...
   You can see the two calls that VS makes to the command line in the Output window
   If you're creating your own build process, you can use the Output window content as a jumping off point
 
+The `Publish-AspNet` PS Module is used to do the actual deployment to the server
+  You could publish to more than one target by calling `Publish-AspNet` more than once
+
+
 
 
 
@@ -244,8 +248,6 @@ https://channel9.msdn.com/Events/dotnetConf/2016/Building-AllReady-Saving-Lives-
 ## Getting Started with F# on .NET Core
 
 https://channel9.msdn.com/Events/Build/2016/T661
-
-
 
 
 
@@ -403,24 +405,19 @@ What loggers does .NET Core or ASP.NET Core support?
   Debug logger (logs to the debug console... is that the Output window or something else?)
   Others???
 
-When you referece a method (i.e. `app.UseStaticFiles()`) that requires a new dependency to be added...
-  Does VS Code give you a shortcut to add that dependency like VS proper does?
+VS Code
+  When you referece a method (i.e. `app.UseStaticFiles()`) that requires a new dependency to be added...
+    Does VS Code give you a shortcut to add that dependency like VS proper does?
+  What are the files that VS Code adds to your project?
+    How do these compare to the files that VS proper requires?
 
-Is there still an IIS native loader?
-  I thought that Kestrel was the only app server?
-
-What are the specific parts of the project.json file?
-
-What is the difference between the project.json when using VS Code and VS proper?
+project.json
+  What are the specific parts of the project.json file?
+  What is the difference between the project.json when using VS Code and VS proper?
 
 What are the files that are generated into the bin folder?
 
-What are the files that VS Code adds to your project?
-  How do these compare to the files that VS proper requires?
-
 What does it take to share projects between VS and VS Code
-
-Should you use project.json `dependencies` as much as possible over framework `dependencies`?
 
 Is there just one .dll now for .NET Core?
   Did there used to be multiple .dlls?
@@ -429,10 +426,8 @@ If you build and deploy an ASP.NET Core app that targets .NET Framework...
   Do you get access to things that aren't available in .NET Core?
   For instance, WCF?
 
-Where are .NET Core files stored on Windows and Mac OS X???
+Where are .NET Core files stored on Mac OS X???
 
-The `Publish-AspNet` PS Module is used to do the actual deployment to the server
-  You could publish to more than one target by calling `Publish-AspNet` more than once
 
 
 
@@ -449,24 +444,52 @@ The `Publish-AspNet` PS Module is used to do the actual deployment to the server
 
 
 
+Read Rick's article on publishing to IIS
+  Publishing and Running ASP.NET Core Applications with IIS
+  https://weblog.west-wind.com/posts/2016/Jun/06/Publishing-and-Running-ASPNET-Core-Applications-with-IIS
+
+Read up on mixing csproj and xproj
+  http://stackify.com/using-both-xproj-and-csproj-with-net-core/
+
+
+
+
+
+Work examples for...
+  Configuration
+  Logging
+  Custom middleware
+  Custom filters
+  Tag helpers
+
+
+Watch ASP.NET community standup videos
+  Or at least read recaps
+
+
+
+
+
+
 
 
 Read up on HttpContext.Features
+  https://docs.asp.net/en/latest/fundamentals/request-features.html
   This looks like a collection of request/response features???
   How does middleware work with this collection???
 
+Read up on Servers and Hosts
+  https://docs.asp.net/en/latest/fundamentals/hosting.html
+  https://docs.asp.net/en/latest/fundamentals/servers.html
+
 Try using Docker from my Surface Book
+  https://docs.docker.com/docker-for-windows/
   Use that machine for showing a demo of Docker???
-
-
-
-
-
-Test publishing a simple app using `dotnet publish`
-  Can I publish to a local IIS???
-    What does it take to get an ASP.NET Core app up and running on IIS???
-  Can I publish to Azure???
   Can I get an app running in Docker???
+
+
+
+
 
 Test `dotnet pack`
   What does it take to publish a class library to NuGet???
@@ -474,19 +497,12 @@ Test `dotnet pack`
 Test `dotnet test`
   What does it take to add unit tests to your project?
 
-Test using Bash on Windows
-
-Practice using the Windows zoom tool
+Windows 10
+  Test using Bash
+  Experiment with multiple desktops
 
 Practice using the VS tools for running Gulp (or webpack?) tasks
   Do NPM scripts also show up in the task runner???
-
-Build my own tag helper
-
-Experiment with multiple desktops in Windows 10
-
-Try using Docker on Windows
-  https://docs.docker.com/docker-for-windows/
 
 Review the source code for the MVC methods that are used to configure services and middleware for MVC
   What does it take to add in source code for a dependency???
@@ -530,6 +546,9 @@ https://weblog.west-wind.com/posts/2016/Jun/29/First-Steps-Exploring-NET-Core-an
 Debug Dockerized .NET Core Apps with VS Code
 http://www.bloggedbychris.com/2016/08/03/debug-dockerized-net-core-apps-code/?utm_source=twitterfeed&utm_medium=facebook
 
+Introduction to Authentication with ASP.NET Core
+http://andrewlock.net/introduction-to-authentication-with-asp-net-core/
+
 Exploring the cookie authentication middleware in ASP.NET Core
 http://andrewlock.net/exploring-the-cookieauthenticationmiddleware-in-asp-net-core/
 
@@ -548,28 +567,10 @@ ASP.NET Core forms
 
 Dig into Identity for ASP.NET Core
 
-Work up a full-stack web app example
-  Web API
-  EF Core
-  Postgres
-  React or Angular 2?
-  TypeScript
-  Webpack
-  RxJS
-
-Work examples for...
-  Configuration
-  Logging
-  Custom middleware
-  Tag helpers
-
 Convert Treehouse projects to ASP.NET Core
 
 Practice debugging web apps in VS Code
 
-Setup Linux VM with .NET Core
-
-Try deploying to Azure
 
 
 
@@ -1053,21 +1054,59 @@ GitHub Repo
 
 https://docs.microsoft.com/en-us/dotnet/articles/standard/index
 
+## `project.json`
+
+A build-only dependency ("type": "build") means this dependency is local to the current project. For example, if Project A has a build only dependency and Project B depends on A, dotnet restore will not add A’s build-only dependencies into Project B.
+
+## MVC
+
+### Controllers
+
+Controllers typically reside in the root `Controllers` folder and inherit from the `Controller` base class, but both of those conventions are optional.
+
+Controllers can return one of the following results using the `Controller` base class helper methods.
+
+* View - `return View(viewModel);`
+* HTTP Status Code - `return BadRequest();`
+* Formatted Response - `return Json(model);`
+* Content Negotiated Response - `return Ok();` or `return Created();`
+* Redirect - `return RedirectToAction("Index");`
+
+### API Controllers
+
+API controllers inherit from the same `Controller` base class. This allows code to be shared between View and API controllers; like custom filters for instance.
+
+To specify which HTTP verbs a method should support, you need to be explicit by using attributes. Using a method name of `Get` does not restrict the allowed HTTP verbs to `GET`.
+
+There is a Web API compatibility shim that you can use to migrate your ApiControllers.
+
+See [https://www.nuget.org/packages/Microsoft.AspNet.Mvc.WebApiCompatShim/6.0.0-rc1-final](https://www.nuget.org/packages/Microsoft.AspNet.Mvc.WebApiCompatShim/6.0.0-rc1-final)
+
+### Client Side Validation
+
+Just include the necessary script includes... no configuration required!
+
+```
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+```
+
+Custom validators
+  You can easily write your own validators that validate on the server and client
+
+Remote validators
+  With the `[Remote]` data annotation you can easily add an API based client side validator
+
+## Tag Helpers
+
+Easy cache busting on script includes and style links.
+
+```
+<script src="~/js/app.js" asp-append-version="true"></script>
+```
 
 
 
 
 
-
-
-
-
-
-
-## Resources
-
-Where's DNVM? Safely running multiple versions of the .NET Core SDK and Tooling with global.json
-http://www.hanselman.com/blog/WheresDNVMSafelyRunningMultipleVersionsOfTheNETCoreSDKAndToolingWithGlobaljson.aspx
-
-Exploring dotnet new with .NET Core
-http://www.hanselman.com/blog/ExploringDotnetNewWithNETCore.aspx

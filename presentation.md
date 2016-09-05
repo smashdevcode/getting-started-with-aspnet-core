@@ -2,6 +2,16 @@
 # Presentation
 
 
+## TODO
+
+What's my strategy if I'm not online???
+  Have completed versions of my demos???
+
+Practice using the Windows zoom tool
+
+
+
+
 
 ## Outline
 
@@ -9,23 +19,61 @@ Give overview of ASP.NET Core
   What is it?
   Why was it created?
 
+Start with Windows?
+  This is what most people will be familiar with
+
+Creating a new project
+  Show VS first
+  Build confidence that they haven't moved the cheese (not completely)  
+  We can even deploy this to Azure
+  Show that adding an action method and view just works as you expect it to
+
+The basic things are more or less the same
+  But the platform has undergone a major overhaul
+  Let's create a simple app and build it up from there
+
+Create a project using the dotnet CLI
+  Start simple and build it up
+
 Mac OS X
-  Setup your env
+  Setup your env (slides)
   Create a new console app
   Turn it into a basic web app
   Turn it into a basic MVC app
   Show debugging in VS Code
 
 Windows
-  Start with VS Community installation
-    Or can I show how quickly VS 15 will install now??? That would be pretty cool...
-  What else needs to be installed?
+  Start with VS Community with Update 3 installation
+  Install .NET Core tools
+    Talk through these steps (slides)
   Show the experience of creating a new project
+    Pretty much what you're used to
 
 Features to show
+  Error handling
+  Static files
+  Default files
+  Middleware
+  Adding MVC to an empty project
+  EF Core
+  Logging
+  Configuration
   Built-in DI
   Combined MVC and Web API surface
   Tag helpers
+  View components?
+
+Debugging into source code
+
+Things to come...
+  Final tooling
+    .csproj is coming back!
+    But it won't suck!
+  SignalR
+  Web Pages
+  JavaScript Services
+
+
 
 
 
