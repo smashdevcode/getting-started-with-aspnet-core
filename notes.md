@@ -444,6 +444,14 @@ Where are .NET Core files stored on Mac OS X???
 
 
 
+
+Review the source code for the MVC methods that are used to configure services and middleware for MVC
+  What does it take to add in source code for a dependency???
+
+
+
+
+
 Read Rick's article on publishing to IIS
   Publishing and Running ASP.NET Core Applications with IIS
   https://weblog.west-wind.com/posts/2016/Jun/06/Publishing-and-Running-ASPNET-Core-Applications-with-IIS
@@ -503,9 +511,6 @@ Windows 10
 
 Practice using the VS tools for running Gulp (or webpack?) tasks
   Do NPM scripts also show up in the task runner???
-
-Review the source code for the MVC methods that are used to configure services and middleware for MVC
-  What does it take to add in source code for a dependency???
 
 Test using dotnet watch
   https://github.com/aspnet/dotnet-watch
