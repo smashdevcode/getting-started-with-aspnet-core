@@ -3,6 +3,74 @@
 
 
 
+## Questions
+
+What is the "Shared Framework"?
+  Sounds like there's a "Shared Framework Host" and "Shared Framework"
+  Is the "Shared Framework Host" the CLR?
+  Is the "Shared Framework" the BCL?
+
+What loggers does .NET Core or ASP.NET Core support?
+  Console logger (logs to the console... does it only work if you're running from the console?)
+  Debug logger (logs to the debug console... is that the Output window or something else?)
+  Others???
+
+Where are .NET Core files stored on Mac OS X???
+
+
+
+## TODO
+
+Watch ASP.NET community standup videos
+  Or at least read recaps
+
+Read Rick's article on publishing to IIS
+  Publishing and Running ASP.NET Core Applications with IIS
+  https://weblog.west-wind.com/posts/2016/Jun/06/Publishing-and-Running-ASPNET-Core-Applications-with-IIS
+
+Read up on HttpContext.Features
+  https://docs.asp.net/en/latest/fundamentals/request-features.html
+  This looks like a collection of request/response features???
+  How does middleware work with this collection???
+
+Read up on Servers and Hosts
+  https://docs.asp.net/en/latest/fundamentals/hosting.html
+  https://docs.asp.net/en/latest/fundamentals/servers.html
+
+Try using Docker from my Surface Book
+  https://docs.docker.com/docker-for-windows/
+  Use that machine for showing a demo of Docker???
+  Can I get an app running in Docker???
+
+Test `dotnet pack`
+  What does it take to publish a class library to NuGet???
+
+Test `dotnet test`
+  What does it take to add unit tests to your project?
+
+Practice using the VS tools for running Gulp (or webpack?) tasks
+  Do NPM scripts also show up in the task runner???
+
+Test using dotnet watch
+  https://github.com/aspnet/dotnet-watch
+
+Check out VS extension that grabs a dependency's source code
+  How difficult would it be to create a command line version of this?
+
+Review the source code for the methods that are used to create a web app
+
+Look into how to set environment variables from the command line and from VS
+
+Review docs.asp.net
+  Check out the Migration docs - https://docs.asp.net/en/latest/migration/mvc.html
+
+Dig into Identity for ASP.NET Core
+
+Convert Treehouse projects to ASP.NET Core
+
+
+
+
 
 
 
@@ -371,210 +439,6 @@ Docker support
 
 
 
-## .NET Core
-
-Type `dotnet` at a command prompt to get information about .NET Core
-
-On Windows .NET Core is installed at `C:\Program Files\dotnet\`
-
-You can see the versions that you have installed withing the `sdk` folder
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Questions
-
-What is the ".NET Core Shared Framework Host"?
-  Is this the CLR?
-
-What is the "Shared Framework"?
-  Sounds like there's a "Shared Framework Host" and "Shared Framework"
-  Is the "Shared Framework" the BCL?
-
-What loggers does .NET Core or ASP.NET Core support?
-  Console logger (logs to the console... does it only work if you're running from the console?)
-  Debug logger (logs to the debug console... is that the Output window or something else?)
-  Others???
-
-VS Code
-  When you referece a method (i.e. `app.UseStaticFiles()`) that requires a new dependency to be added...
-    Does VS Code give you a shortcut to add that dependency like VS proper does?
-  What are the files that VS Code adds to your project?
-    How do these compare to the files that VS proper requires?
-
-project.json
-  What are the specific parts of the project.json file?
-  What is the difference between the project.json when using VS Code and VS proper?
-
-What are the files that are generated into the bin folder?
-
-What does it take to share projects between VS and VS Code
-
-Is there just one .dll now for .NET Core?
-  Did there used to be multiple .dlls?
-
-If you build and deploy an ASP.NET Core app that targets .NET Framework...
-  Do you get access to things that aren't available in .NET Core?
-  For instance, WCF?
-
-Where are .NET Core files stored on Mac OS X???
-
-
-
-
-
-
-
-
-
-
-
-
-
-## TODO
-
-
-
-
-Review the source code for the MVC methods that are used to configure services and middleware for MVC
-  What does it take to add in source code for a dependency???
-
-
-
-
-
-Read Rick's article on publishing to IIS
-  Publishing and Running ASP.NET Core Applications with IIS
-  https://weblog.west-wind.com/posts/2016/Jun/06/Publishing-and-Running-ASPNET-Core-Applications-with-IIS
-
-Read up on mixing csproj and xproj
-  http://stackify.com/using-both-xproj-and-csproj-with-net-core/
-
-
-
-
-
-Work examples for...
-  Configuration
-  Logging
-  Custom middleware
-  Custom filters
-  Tag helpers
-
-
-Watch ASP.NET community standup videos
-  Or at least read recaps
-
-
-
-
-
-
-
-
-Read up on HttpContext.Features
-  https://docs.asp.net/en/latest/fundamentals/request-features.html
-  This looks like a collection of request/response features???
-  How does middleware work with this collection???
-
-Read up on Servers and Hosts
-  https://docs.asp.net/en/latest/fundamentals/hosting.html
-  https://docs.asp.net/en/latest/fundamentals/servers.html
-
-Try using Docker from my Surface Book
-  https://docs.docker.com/docker-for-windows/
-  Use that machine for showing a demo of Docker???
-  Can I get an app running in Docker???
-
-
-
-
-
-Test `dotnet pack`
-  What does it take to publish a class library to NuGet???
-
-Test `dotnet test`
-  What does it take to add unit tests to your project?
-
-Windows 10
-  Test using Bash
-  Experiment with multiple desktops
-
-Practice using the VS tools for running Gulp (or webpack?) tasks
-  Do NPM scripts also show up in the task runner???
-
-Test using dotnet watch
-  https://github.com/aspnet/dotnet-watch
-
-Check out VS extension that grabs a dependency's source code
-  How difficult would it be to create a command line version of this?
-
-Review the source code for the methods that are used to create a web app
-
-Look into how to set environment variables from the command line and from VS
-
-
-
-
-
-
-Source code for the NuGet package and samples for using Webpack with asp.net core applications
-https://github.com/xabikos/aspnet-webpack
-
-A Real-World React.js Setup for ASP.NET Core and MVC5
-https://www.simple-talk.com/dotnet/asp-net/a-real-world-react-js-setup-for-asp-net-core-and-mvc5/
-
-A Practical Approach to Cache Busting with Webpack and ASP.NET Core 1.0
-https://scottaddie.com/2015/12/14/a-practical-approach-to-cache-busting-with-webpack-and-asp-net-5/
-
-ASP.NET CORE, ANGULAR2 WITH WEBPACK AND VISUAL STUDIO
-https://damienbod.com/2016/06/12/asp-net-core-angular2-with-webpack-and-visual-studio/
-
-Angular 2, React, and Knockout apps on ASP.NET Core
-http://blog.stevensanderson.com/2016/05/02/angular2-react-knockout-apps-on-aspnet-core/
-
-ASP.NET Core and .NET Core Overview
-https://weblog.west-wind.com/posts/2016/Jun/13/ASPNET-Core-and-NET-Core-Overview
-
-First Steps: Exploring .NET Core and ASP.NET Core
-https://weblog.west-wind.com/posts/2016/Jun/29/First-Steps-Exploring-NET-Core-and-ASPNET-Core
-
-Debug Dockerized .NET Core Apps with VS Code
-http://www.bloggedbychris.com/2016/08/03/debug-dockerized-net-core-apps-code/?utm_source=twitterfeed&utm_medium=facebook
-
-Introduction to Authentication with ASP.NET Core
-http://andrewlock.net/introduction-to-authentication-with-asp-net-core/
-
-Exploring the cookie authentication middleware in ASP.NET Core
-http://andrewlock.net/exploring-the-cookieauthenticationmiddleware-in-asp-net-core/
-
-Migrating from ASP.NET 5 RC1 to ASP.NET Core 1.0
-https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#update-target-framework-monikers-tfms
-
-Review docs.asp.net
-  Check out the Migration docs - https://docs.asp.net/en/latest/migration/mvc.html
-
-Work up simple Web API and EF Core sample
-  Get familiar with the new migration commands
-  https://docs.efproject.net/en/latest/platforms/aspnetcore/new-db.html
-
-ASP.NET Core forms
-  https://docs.asp.net/en/latest/mvc/views/working-with-forms.html
-
-Dig into Identity for ASP.NET Core
-
-Convert Treehouse projects to ASP.NET Core
-
-Practice debugging web apps in VS Code
 
 
 
@@ -909,6 +773,43 @@ Should you build apps using ASP.NET Core today???
 
 
 
+Source code for the NuGet package and samples for using Webpack with asp.net core applications
+https://github.com/xabikos/aspnet-webpack
+
+A Real-World React.js Setup for ASP.NET Core and MVC5
+https://www.simple-talk.com/dotnet/asp-net/a-real-world-react-js-setup-for-asp-net-core-and-mvc5/
+
+A Practical Approach to Cache Busting with Webpack and ASP.NET Core 1.0
+https://scottaddie.com/2015/12/14/a-practical-approach-to-cache-busting-with-webpack-and-asp-net-5/
+
+ASP.NET CORE, ANGULAR2 WITH WEBPACK AND VISUAL STUDIO
+https://damienbod.com/2016/06/12/asp-net-core-angular2-with-webpack-and-visual-studio/
+
+Angular 2, React, and Knockout apps on ASP.NET Core
+http://blog.stevensanderson.com/2016/05/02/angular2-react-knockout-apps-on-aspnet-core/
+
+ASP.NET Core and .NET Core Overview
+https://weblog.west-wind.com/posts/2016/Jun/13/ASPNET-Core-and-NET-Core-Overview
+
+First Steps: Exploring .NET Core and ASP.NET Core
+https://weblog.west-wind.com/posts/2016/Jun/29/First-Steps-Exploring-NET-Core-and-ASPNET-Core
+
+Debug Dockerized .NET Core Apps with VS Code
+http://www.bloggedbychris.com/2016/08/03/debug-dockerized-net-core-apps-code/?utm_source=twitterfeed&utm_medium=facebook
+
+Introduction to Authentication with ASP.NET Core
+http://andrewlock.net/introduction-to-authentication-with-asp-net-core/
+
+Exploring the cookie authentication middleware in ASP.NET Core
+http://andrewlock.net/exploring-the-cookieauthenticationmiddleware-in-asp-net-core/
+
+Migrating from ASP.NET 5 RC1 to ASP.NET Core 1.0
+https://docs.asp.net/en/latest/migration/rc1-to-rtm.html#update-target-framework-monikers-tfms
+
+
+
+
+
 
 
 
@@ -1111,7 +1012,10 @@ Easy cache busting on script includes and style links.
 <script src="~/js/app.js" asp-append-version="true"></script>
 ```
 
+## .NET Core
 
+Type `dotnet` at a command prompt to get information about .NET Core
 
+On Windows .NET Core is installed at `C:\Program Files\dotnet\`
 
-
+You can see the versions that you have installed withing the `sdk` folder
