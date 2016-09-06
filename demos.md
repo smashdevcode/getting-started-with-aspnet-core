@@ -3,10 +3,14 @@
 
 ## TODO
 
-* Setup snippets file in the presentation repo
-* Review demos for more ideas and/or detail to cover here
+
+
+* Setup code snippets
+
 * Practice with no internet connectivity
-* Practice using the Windows zoom tool
+ * Can I have completed, restored versions of the demos???
+
+
 
 
 ## Prep
@@ -16,19 +20,7 @@
 * Copy and paste a copy of the demos to the desktops of each machine
 * Open the snippets doc in Sublime on each machine
 
-## File > New Project
-
-* Show Windows + VS first
-* Build confidence that they haven't moved the cheese (not completely)  
-* Show that adding an action method and view just works as you expect it to
-* We can even deploy this to Azure if we wanted to
-
-## Simple App
-
-The basic things are more or less the same.
-
-* But the platform has undergone a major overhaul
-* Let's create a simple app and build it up from there
+## Creating a Simple App using the .NET CLI
 
 Create a project using the .NET CLI.
 
@@ -44,19 +36,24 @@ dotnet run
 
 Let's review our project files in Visual Studio Code.
 
+### Program.cs
 
+Not much happening here... this is just a regular old console app.
 
-TODO Give myself some notes about the project.json file
+### project.json
 
+The `project.json` file is being replaced with a `.csproj`, so I'm not going to spend a lot of time explaining the parts of this file. But I do want to highlight some things.
 
+* The `dependencies` property lists the dependencies for our app
+ * Each item represents a NuGet package that needs to be restored before the app can be built and ran
+ * Items typically have their own dependencies, so this list of dependencies does not represent the full list of NuGet packages that your app depends on.
+* The `frameworks` property lists the frameworks that we're targeting, in this case `netcoreapp1.0` which is .NET Core.
 
-
-
-
+This file becomes bigger for ASP.NET Core apps.
 
 ## Simple Web App
 
-Starting from our "Simple App"...
+Now let's create a simple web app from our "Simple App".
 
 1) Add `"Microsoft.AspNetCore.Server.Kestrel": "1.0.0"` as a dependency.
 
@@ -89,216 +86,141 @@ host.Run();
 
 5) Then `dotnet restore` and `dotnet run` from the command line.
 
+6) Browse to `http://localhost:5000/`
+
 ## Middleware
 
 We could continue to add middleware to our `Configure` delegate, but that would get messy real fast. We can replace our `Configure` method call with a call to the `UseStartup` method.
 
-I've already got a project to give us a starting point. Let's open it in Visual Studio proper.
-
-[Open the Middleware demo project]
-
-* Show how to create middleware
-* Show how the pipeline works
-* Middleware replaces HttpModules and HttpHandlers in IIS.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Creating an MVC Project
-
-Let's start with a new empty project using Visual Studio.
-
-[Create new empty project using Visual Studio]
-
-### Exploring Built-In Middleware
-
-We don't have to create all of our own middleware of course. Let's explore some of the major built-in middleware.
-
-TODO Just walk through the middleware that is part of the project template???
-
-* Logging
- * Generic logging wrapper around whatever providers you want to configure
-* Configuration
- * Show JSON config file
- * Show how to access config values
- * Can be customized
-* Error handling (status code pages)
- * Show how to 
-* Static files
- * Explain the purpose of `wwwroot`
- * Add a static file and try to browse to it
-* Default files
- * No longer set in IIS (for ASP.NET Core apps)
-
-
-
-
-
-
-
-
-
-
-## Simple MVC App
-
-
-
-
-Or to save time... do I just create a simple web app using the VS project template and walk through the project???
-
-
-
-
-Now let's add MVC to our project.
-
-* Adding MVC
-* Add POCO controller
-* Add MVC controller and view
-* Add API controller
-
-
-
-
-
-
-Starting from the "Simple Web App" build...
-
-1) Add `"Microsoft.AspNetCore.Mvc": "1.0.0"` as a dependency.
-
-2) Open `Program.cs` and remove the following namespaces.
-
 ```
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-```
-
-Then change the `Main` method to the following.
-
-```
-new WebHostBuilder()
+var host = new WebHostBuilder()
     .UseKestrel()
     .UseStartup<Startup>()
-    .Build()
-    .Run();
+    .Build();
+
+host.Run();
 ```
 
-3) Add `Startup.cs` to the root of the project.
+### The Startup Class
 
-[Drag file from desktop?]
+Applications are defined using a public Startup class.
 
 ```
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace SmallestMvcApp
+namespace SimpleApp
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseMvcWithDefaultRoute();
         }
     }
 }
 ```
 
-4) Add a "Controllers" folder.
+You "add" services to your application.
 
-5) Add `HomeController.cs` to the "Controllers" folder.
+* Services are components intended for common consumption in your application
+* Services are made available through dependency injection
+* Three varieties of services
+ * Singleton (one instance)
+ * Scoped (per HTTP request)
+ * Transient (per container request)
+
+Your application will "use" middleware.
+
+* Compose your request pipeline using middleware
+* Middleware perform asynchronous logic on an HttpContext
+* Optionally invoke the next middleware in the sequence or terminate the request directly
+* Use extension methods on IApplicationBuilder to configure middleware
+* Show how to create middleware using `Run` and `Use`
+* Show how the pipeline works by setting breakpoints and running the app
+* Middleware replaces HttpModules and HttpHandlers in IIS
+
+## Creating an MVC Project Using File > New Project
+
+You don't have to use the command line if you don't want to.
+
+Let's start with a new empty project using Visual Studio.
+
+[Create new empty project using Visual Studio]
+
+Notice that packages are restoring here in the Solution Exploring.
+
+Now let's build our app. Notice in the Output window that Visual Studio is using the same `dotnet build` command that we were using a minute ago.
+
+### Exploring Built-In Middleware
+
+We don't have to create all of our own middleware of course. Let's explore some of the major built-in middleware.
+
+#### Logging
+
+* Generic logging wrapper around whatever providers you want to configure
+
+#### Configuration
+
+* Show JSON config file
+* Show how to access config values
+* Can be customized
+
+#### Error Handling
+
+* Show what happens is you don't include the developer error page
+
+#### Static Files
+
+* Explain the purpose of `wwwroot`
+* Add a static file and try to browse to it
+
+#### Default Files
+
+* No longer set in IIS (for ASP.NET Core apps)
+
+### Controllers and Views
+
+Controllers and views for the most part look and feel like they did before.
+
+* Controllers no longer need to inherit from the `Controller` base class
+
+[Add a POCO controller class]
+
+* Action methods return `IActionResult`
+* Adding an action method and view just works as you expect it to
+
+## Built-in DI
+
+Dependency injection is pervasive throughout ASP.NET Core.
+
+1) Add a "Repository" class
+
+[Add the new file via the file system]
+
+2) Add it as a service to the `Startup.cs` file
 
 ```
-public class HomeController
-{
-    public string Index()
-    {
-        return "Hello from the controller!";
-    }
-}
 ```
 
-Now let's add a view!
+3) Inject it into the POCO controller
 
-1) Update the `project.json` file.
+[Run the app and show the content]
 
-```
-"buildOptions": {
-  "emitEntryPoint": true, // Creates an executable if set to true, otherwise the project will produce a .dll.
-  "preserveCompilationContext": true // Required when you are using Razor or any other type of runtime compiling.
-}
-```
+## Adding an API Controller
 
-2) Open `Program.cs` add the following namespace.
+Web API has now been merged into MVC. MVC and API controllers now share the same base class.
 
-```
-using System.IO;
-```
 
-Then change the `Main` method to the following.
+TODO Add a simple model and API controller
 
-```
-new WebHostBuilder()
-    .UseKestrel()
-    .UseContentRoot(Directory.GetCurrentDirectory()) // This is necessary to support views.
-    .UseStartup<Startup>()
-    .Build()
-    .Run();
-```
-
-3) Update the controller.
-
-```
-using Microsoft.AspNetCore.Mvc;
-
-public class HomeController : Controller
-{
-    public IActionResult Index()
-    {
-        return View();
-    }
-}
-```
-
-4) Add a "Views/Home" folder.
-
-5) Add `Index.cshtml` to the "Views/Home" folder.
-
-```
-<h1>Hello from an MVC view!</h1>
-```
+TODO List things to highlight about API controllers
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-## JSON.net Changes
+### JSON.net Changes
 
 Now defaults to camel-case for your property names.
 
@@ -319,14 +241,6 @@ services.AddMvc()
     });
 ```
 
-## Built-in DI
-
-Dependency injection is pervasive throughout ASP.NET Core.
-
-* Add a "Repository" class
-* Add it as a service
-* Inject it into the controller
-
 
 
 
@@ -339,12 +253,30 @@ Dependency injection is pervasive throughout ASP.NET Core.
 
 ## Tag Helpers
 
+
 TODO Setup file on the desktop or the talk repo???
+
+
+
+
+Tag Helpers enable server-side code to participate in creating and rendering HTML elements in Razor files.
+
+* An HTML-friendly development experience
+* A rich IntelliSense environment for creating HTML and Razor markup
+* A way to make you more productive and able to produce more robust, reliable, and maintainable code using information only available on the server
+
+
+
 
 Instead of using HTML helper methods, which aren't very friendly for people who aren't familiar with Razor, we can now use Tag Helpers.
 
 * Show form using HTML helpers
 * Show the same form with Tag Helpers
+
+
+
+
+## Custom Tag Helpers
 
 You can also create custom tag helpers
 
@@ -380,11 +312,42 @@ namespace AspNetCoreResources.TagHelpers
 @addTagHelper *, AspNetCoreResources
 ```
 
-Let's sync our repo with GitHub and switch to macOS.
+
+
+
+
+## Publishing
+
+Let's use Visual Studio to publish our app.
+
+[Publish the app]
+
+Now let's copy the files over to a memory stick so that we can run this app on the Mac.
 
 [Switch to Mac...]
 
-Let's pull the latest changes for our repo. Then open our project in Visual Studio Code.
+Now we can run the app using the .NET CLI.
+
+```
+dotnet [app].dll
+```
+
+## Creating a Project Using Yeoman
+
+On the Mac, we don't have Visual Studio project templates available to us. We could use the .NET CLI, but it only has a single web app template at this point. Instead, let's use Yeoman.
+
+Yeoman is a utility that you install using NPM.
+
+```
+npm install -g yo
+npm install -g generator-aspnet
+```
+
+Now we can create a project.
+
+```
+yo aspnet
+```
 
 ## Debugging in VS Code
 
@@ -392,11 +355,13 @@ We can easily move our projects from Windows to the Mac and vice versa.
 
 Entity Framework database providers and database migrations can complicate things, but it is possible to work it out so that you can support developers on macOS (or Linux).
 
-## Yeoman
+Let's open our project in Visual Studio code.
 
-More templates then the .NET CLI.
+```
+code .
+```
 
-* Show generating a project using Yeoman
+Now let's run and debug our app.
 
 ## Finding Packages
 
