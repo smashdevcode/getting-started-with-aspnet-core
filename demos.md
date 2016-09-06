@@ -1,10 +1,19 @@
 
 # Demos
 
+
+
+
+Print out high level outline???
+
+
+
+
 ## Prep
 
 * Disable power saving features
 * Turn off notifications
+* Open demos document in a browser on the Mac
 * Open Powershell, set font size, and browse to the desktop folder
 
 ## Creating a Simple App using the .NET CLI
@@ -36,7 +45,7 @@ The `project.json` file is being replaced with a `.csproj`, so I'm not going to 
  * Items typically have their own dependencies, so this list of dependencies does not represent the full list of NuGet packages that your app depends on.
 * The `frameworks` property lists the frameworks that we're targeting, in this case `netcoreapp1.0` which is .NET Core.
 
-This file becomes bigger for ASP.NET Core apps.
+This file becomes more complicated for ASP.NET Core apps.
 
 ## Simple Web App
 
