@@ -11,7 +11,8 @@ namespace TagHelpers.Controllers
     {
         public IActionResult Add()
         {
-            return View("AddWithTagHelpers");
+            return View();
+            //return View("AddWithTagHelpers");
         }
 
         [HttpPost]
