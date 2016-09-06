@@ -7,6 +7,12 @@
 * Practice with no internet connectivity
 * Practice using the Windows zoom tool
 
+
+## Prep
+
+* Create new repo
+* Clone to both Windows and macOS
+
 ## File > New Project
 
 * Show Windows + VS first
@@ -25,7 +31,151 @@ Create a project using the .NET CLI.
 
 * Start simple and build it up
 * Create a new console app
-* Turn it into a basic web app (no startup file)
+
+```
+mkdir SimpleApp
+dotnet new
+dotnet restore
+dotnet run
+```
+
+Let's review our project files in Visual Studio Code.
+
+## Simple Web App
+
+Starting from our "Simple App"...
+
+1) Add `"Microsoft.AspNetCore.Server.Kestrel": "1.0.0"` as a dependency.
+
+2) Open `Program.cs` and add the following namespaces.
+
+```
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+```
+
+And add the following code in the `Main` method.
+
+```
+new WebHostBuilder()
+    .UseKestrel()
+    .Configure(a => a.Run(c => c.Response.WriteAsync("Hello world!")))
+    .Build()
+    .Run();
+```
+
+3) Then `dotnet restore` and `dotnet run`.
+
+## Simple MVC App
+
+Starting from the "Simple Web App" build...
+
+1) Add `"Microsoft.AspNetCore.Mvc": "1.0.0"` as a dependency.
+
+2) Open `Program.cs` and remove the following namespaces.
+
+```
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+```
+
+Then change the `Main` method to the following.
+
+```
+new WebHostBuilder()
+    .UseKestrel()
+    .UseStartup<Startup>()
+    .Build()
+    .Run();
+```
+
+3) Add `Startup.cs` to the root of the project.
+
+```
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace SmallestMvcApp
+{
+    public class Startup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            app.UseMvcWithDefaultRoute();
+        }
+    }
+}
+```
+
+4) Add a "Controllers" folder.
+
+5) Add `HomeController.cs` to the "Controllers" folder.
+
+```
+public class HomeController
+{
+    public string Index()
+    {
+        return "Hello from the controller!";
+    }
+}
+```
+
+Now let's add a view!
+
+1) Update the `project.json` file.
+
+```
+"buildOptions": {
+  "emitEntryPoint": true,
+  "preserveCompilationContext": true
+}
+```
+
+2) Open `Program.cs` add the following namespace.
+
+```
+using System.IO;
+```
+
+Then change the `Main` method to the following.
+
+```
+new WebHostBuilder()
+    .UseKestrel()
+    .UseContentRoot(Directory.GetCurrentDirectory()) // This is necessary to support views.
+    .UseStartup<Startup>()
+    .Build()
+    .Run();
+```
+
+3) Update the controller.
+
+```
+using Microsoft.AspNetCore.Mvc;
+
+public class HomeController : Controller
+{
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+```
+
+4) Add a "Views/Home" folder.
+
+5) Add `Index.cshtml` to the "Views/Home" folder.
+
+```
+<h1>Hello from an MVC view!</h1>
+```
 
 ## Middleware
 
