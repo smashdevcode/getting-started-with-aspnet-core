@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
 
-namespace Api
+namespace TagHelpers
 {
     public class Startup
     {
@@ -29,18 +28,7 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
-
-            //services.AddMvc()
-            //    .AddJsonOptions(options =>
-            //    {
-            //        var resolver = options.SerializerSettings.ContractResolver;
-            //        if (resolver != null)
-            //        {
-            //            var res = resolver as DefaultContractResolver;
-            //            res.NamingStrategy = null;
-            //        }
-            //    });
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
