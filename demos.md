@@ -3,6 +3,7 @@
 
 ## TODO
 
+* Setup snippets file in the presentation repo
 * Review demos for more ideas and/or detail to cover here
 * Practice with no internet connectivity
 * Practice using the Windows zoom tool
@@ -12,6 +13,8 @@
 
 * Create new repo
 * Clone to both Windows and macOS
+* Copy and paste a copy of the demos to the desktops of each machine
+* Open the snippets doc in Sublime on each machine
 
 ## File > New Project
 
@@ -41,6 +44,16 @@ dotnet run
 
 Let's review our project files in Visual Studio Code.
 
+
+
+TODO Give myself some notes about the project.json file
+
+
+
+
+
+
+
 ## Simple Web App
 
 Starting from our "Simple App"...
@@ -57,17 +70,107 @@ using Microsoft.AspNetCore.Http;
 
 And add the following code in the `Main` method.
 
+1) First we start with telling the host to use Kestrel.
+
+2) Then we configure the host by calling the `Configure` method which passes our delegate (or anonymous method) an IApplicationBuilder instance.
+
+3) On the app builder we call the `Run` method and supply another delegate that handles the request. This delegate is a very simple middleware component.
+
+4) Then we build and run the host.
+
 ```
-new WebHostBuilder()
+var host = new WebHostBuilder()
     .UseKestrel()
     .Configure(a => a.Run(c => c.Response.WriteAsync("Hello world!")))
-    .Build()
-    .Run();
+    .Build();
+
+host.Run();
 ```
 
-3) Then `dotnet restore` and `dotnet run`.
+5) Then `dotnet restore` and `dotnet run` from the command line.
+
+## Middleware
+
+We could continue to add middleware to our `Configure` delegate, but that would get messy real fast. We can replace our `Configure` method call with a call to the `UseStartup` method.
+
+I've already got a project to give us a starting point. Let's open it in Visual Studio proper.
+
+[Open the Middleware demo project]
+
+* Show how to create middleware
+* Show how the pipeline works
+* Middleware replaces HttpModules and HttpHandlers in IIS.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Creating an MVC Project
+
+Let's start with a new empty project using Visual Studio.
+
+[Create new empty project using Visual Studio]
+
+### Exploring Built-In Middleware
+
+We don't have to create all of our own middleware of course. Let's explore some of the major built-in middleware.
+
+TODO Just walk through the middleware that is part of the project template???
+
+* Logging
+ * Generic logging wrapper around whatever providers you want to configure
+* Configuration
+ * Show JSON config file
+ * Show how to access config values
+ * Can be customized
+* Error handling (status code pages)
+ * Show how to 
+* Static files
+ * Explain the purpose of `wwwroot`
+ * Add a static file and try to browse to it
+* Default files
+ * No longer set in IIS (for ASP.NET Core apps)
+
+
+
+
+
+
+
+
+
 
 ## Simple MVC App
+
+
+
+
+Or to save time... do I just create a simple web app using the VS project template and walk through the project???
+
+
+
+
+Now let's add MVC to our project.
+
+* Adding MVC
+* Add POCO controller
+* Add MVC controller and view
+* Add API controller
+
+
+
+
+
 
 Starting from the "Simple Web App" build...
 
@@ -91,6 +194,8 @@ new WebHostBuilder()
 ```
 
 3) Add `Startup.cs` to the root of the project.
+
+[Drag file from desktop?]
 
 ```
 using Microsoft.AspNetCore.Builder;
@@ -133,8 +238,8 @@ Now let's add a view!
 
 ```
 "buildOptions": {
-  "emitEntryPoint": true,
-  "preserveCompilationContext": true
+  "emitEntryPoint": true, // Creates an executable if set to true, otherwise the project will produce a .dll.
+  "preserveCompilationContext": true // Required when you are using Razor or any other type of runtime compiling.
 }
 ```
 
@@ -177,47 +282,21 @@ public class HomeController : Controller
 <h1>Hello from an MVC view!</h1>
 ```
 
-## Middleware
 
-Middleware replaces HttpModules and HttpHandlers in IIS.
 
-[Open the Middleware demo project]
 
-* Show how to create middleware
-* Show how the pipeline works
 
-### Exploring Built-In Middleware
 
-We don't have to create all of our own middleware of course. Let's explore some of the major built-in middleware.
 
-Let's create a new empty project using Visual Studio.
 
-[Create new empty project using Visual Studio]
 
-TODO Just walk through the middleware that is part of the project template???
 
-* Logging
- * Generic logging wrapper around whatever providers you want to configure
-* Configuration
- * Show JSON config file
- * Show how to access config values
- * Can be customized
-* Error handling (status code pages)
- * Show how to 
-* Static files
- * Explain the purpose of `wwwroot`
- * Add a static file and try to browse to it
-* Default files
- * No longer set in IIS (for ASP.NET Core apps)
 
-## Using MVC
 
-Now let's add MVC to our project.
 
-* Adding MVC
-* Add POCO controller
-* Add MVC controller and view
-* Add API controller
+
+
+
 
 ## JSON.net Changes
 
@@ -248,7 +327,19 @@ Dependency injection is pervasive throughout ASP.NET Core.
 * Add it as a service
 * Inject it into the controller
 
+
+
+
+
+
+
+
+
+
+
 ## Tag Helpers
+
+TODO Setup file on the desktop or the talk repo???
 
 Instead of using HTML helper methods, which aren't very friendly for people who aren't familiar with Razor, we can now use Tag Helpers.
 
@@ -289,7 +380,11 @@ namespace AspNetCoreResources.TagHelpers
 @addTagHelper *, AspNetCoreResources
 ```
 
+Let's sync our repo with GitHub and switch to macOS.
+
 [Switch to Mac...]
+
+Let's pull the latest changes for our repo. Then open our project in Visual Studio Code.
 
 ## Debugging in VS Code
 
@@ -321,7 +416,11 @@ Do you need to use something that's not available in .NET Core?
 Then you can target the full .NET Framework instead of .NET Core.
 
 * Not cross platform... only runs on Windows (unless you want to target Mono)
-* Show the differences in the `project.json`
+
+Show the differences in the `project.json`
+
+[Open HTML report]
+
 * Overall minor differences
 * Important to note that the app is still built using the `dotnet` CLI
 * Also still hosted using Kestrel with IIS as a reverse proxy
