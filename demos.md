@@ -1,11 +1,6 @@
 
 # Demos
 
-## TODO
-
-* Practice with no internet connectivity
- * Can I have completed, restored versions of the demos???
-
 ## Prep
 
 * Disable power saving features
