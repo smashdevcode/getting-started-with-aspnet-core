@@ -3,22 +3,14 @@
 
 ## TODO
 
-
-
-* Setup code snippets
-
 * Practice with no internet connectivity
  * Can I have completed, restored versions of the demos???
 
-
-
-
 ## Prep
 
-* Create new repo
-* Clone to both Windows and macOS
-* Copy and paste a copy of the demos to the desktops of each machine
-* Open the snippets doc in Sublime on each machine
+* Disable power saving features
+* Turn off notifications
+* Open Powershell, set font size, and browse to the desktop folder
 
 ## Creating a Simple App using the .NET CLI
 
@@ -59,6 +51,8 @@ Now let's create a simple web app from our "Simple App".
 
 2) Open `Program.cs` and add the following namespaces.
 
+Snippet: _sau
+
 ```
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
@@ -74,6 +68,8 @@ And add the following code in the `Main` method.
 3) On the app builder we call the `Run` method and supply another delegate that handles the request. This delegate is a very simple middleware component.
 
 4) Then we build and run the host.
+
+Snippet: _sah
 
 ```
 var host = new WebHostBuilder()
@@ -105,6 +101,8 @@ host.Run();
 
 Applications are defined using a public Startup class.
 
+Snippet: _sc
+
 ```
 namespace SimpleApp
 {
@@ -116,19 +114,11 @@ namespace SimpleApp
 
         public void Configure(IApplicationBuilder app)
         {
+            ...
         }
     }
 }
 ```
-
-You "add" services to your application.
-
-* Services are components intended for common consumption in your application
-* Services are made available through dependency injection
-* Three varieties of services
- * Singleton (one instance)
- * Scoped (per HTTP request)
- * Transient (per container request)
 
 Your application will "use" middleware.
 
@@ -139,6 +129,48 @@ Your application will "use" middleware.
 * Show how to create middleware using `Run` and `Use`
 * Show how the pipeline works by setting breakpoints and running the app
 * Middleware replaces HttpModules and HttpHandlers in IIS
+
+### Custom Middleware
+
+Having our middleware implementation directly in the `Startup.cs` file is not really a best practice. Let's look at an example of moving our custom middleware to its own file.
+
+Snippet: _cm
+
+```
+using System.Threading.Tasks; 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+
+namespace Middleware.Middleware
+{
+    public class CustomMiddleware
+    {
+        private readonly RequestDelegate _next;
+        private readonly string _name;
+
+        public CustomMiddleware(RequestDelegate next, string name)
+        {
+            _next = next;
+            _name = name;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            await context.Response.WriteAsync($"<p>{_name} Middleware!</p>");
+            await _next.Invoke(context);
+        }
+    }
+
+    public static class CustomMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseCustomMiddleware(
+            this IApplicationBuilder app, string name = "Custom")
+        {
+            return app.UseMiddleware<CustomMiddleware>(name);
+        }
+    }
+}
+```
 
 ## Creating an MVC Project Using File > New Project
 
@@ -156,15 +188,23 @@ Now let's build our app. Notice in the Output window that Visual Studio is using
 
 We don't have to create all of our own middleware of course. Let's explore some of the major built-in middleware.
 
-#### Logging
-
-* Generic logging wrapper around whatever providers you want to configure
-
 #### Configuration
 
 * Show JSON config file
 * Show how to access config values
 * Can be customized
+
+#### Logging
+
+* `ILoggerFactory` is what we use to configure logging in our apps
+* Generic logging wrapper around whatever providers you want to configure
+
+We can get an instance of a logger by using the logger factory's `CreateLogger` method.
+
+```
+var logger = loggerFactory.CreateLogger<Startup>();
+logger.LogInformation("Hello from Startup!");
+```
 
 #### Error Handling
 
@@ -200,25 +240,30 @@ Dependency injection is pervasive throughout ASP.NET Core.
 
 2) Add it as a service to the `Startup.cs` file
 
-```
-```
+* Services are components intended for common consumption in your application
+* Services are made available through dependency injection
+* Three varieties of services
+ * Singleton (one instance)
+ * Scoped (per HTTP request)
+ * Transient (per container request)
 
 3) Inject it into the POCO controller
 
 [Run the app and show the content]
 
-## Adding an API Controller
+If the built-in DI container doesn't work for your app, then you can replace it with something else. Ninject, Autofac, etc.
 
-Web API has now been merged into MVC. MVC and API controllers now share the same base class.
+## API Controllers
 
+Let's take a look at API controllers in ASP.NET Core.
 
-TODO Add a simple model and API controller
+[Open API controllers demo project]
 
-TODO List things to highlight about API controllers
-
-
-
-
+* Web API has now been merged into MVC
+* MVC and API controllers now share the same base class
+* We can now use the `[controller]` and `[action]` tokens in our routes
+* We need to be explicit with the verbs that our methods should respond to
+* You can now provide the route template in the HTTP verb attributes
 
 ### JSON.net Changes
 
@@ -227,6 +272,8 @@ Now defaults to camel-case for your property names.
 [Use POSTMAN to show JSON response]
 
 Show how to fix this.
+
+Snippet: _jo
 
 ```
 services.AddMvc()
@@ -241,23 +288,76 @@ services.AddMvc()
     });
 ```
 
-
-
-
-
-
-
-
-
-
-
 ## Tag Helpers
 
+[Open tag helpers project]
 
-TODO Setup file on the desktop or the talk repo???
+Let's start with looking a simple form for "contacts". This is a pretty basic MVC Razor form. Nothing surprising here.
 
+```
+@model TagHelpers.Models.Contact
 
+@{
+    ViewData["Title"] = "Add Contact";
+}
 
+<h2>@ViewData["Title"].</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class ="control-label" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Phone, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+    </div>
+
+    <div>
+        <button class="btn btn-lg btn-success">Save</button>
+    </div>
+}
+```
+
+Now let's look at the Tag Helpers version. Notice any differences?
+
+```
+@model TagHelpers.Models.Contact
+
+@{
+    ViewData["Title"] = "Add Contact";
+}
+
+<h2>@ViewData["Title"].</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Phone" class="control-label"></label>
+        <input asp-for="Phone" class="form-control" />
+    </div>
+
+    <div>
+        <button class="btn btn-lg btn-success">Save</button>
+    </div>
+</form>
+```
 
 Tag Helpers enable server-side code to participate in creating and rendering HTML elements in Razor files.
 
@@ -265,16 +365,9 @@ Tag Helpers enable server-side code to participate in creating and rendering HTM
 * A rich IntelliSense environment for creating HTML and Razor markup
 * A way to make you more productive and able to produce more robust, reliable, and maintainable code using information only available on the server
 
+Let's also take a look at how Tag Helpers are being used in the layout page.
 
-
-
-Instead of using HTML helper methods, which aren't very friendly for people who aren't familiar with Razor, we can now use Tag Helpers.
-
-* Show form using HTML helpers
-* Show the same form with Tag Helpers
-
-
-
+[Open the layout page and review tag helpers in it]
 
 ## Custom Tag Helpers
 
@@ -286,7 +379,7 @@ You can also create custom tag helpers
 ```
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace AspNetCoreResources.TagHelpers
+namespace TagHelpers.TagHelpers
 {
     public class EmailTagHelper : TagHelper
     {
@@ -309,12 +402,8 @@ namespace AspNetCoreResources.TagHelpers
 ```
 
 ```
-@addTagHelper *, AspNetCoreResources
+@addTagHelper *, TagHelpers
 ```
-
-
-
-
 
 ## Publishing
 
@@ -349,27 +438,11 @@ Now we can create a project.
 yo aspnet
 ```
 
-## Debugging in VS Code
-
-We can easily move our projects from Windows to the Mac and vice versa.
-
-Entity Framework database providers and database migrations can complicate things, but it is possible to work it out so that you can support developers on macOS (or Linux).
-
-Let's open our project in Visual Studio code.
-
-```
-code .
-```
-
-Now let's run and debug our app.
-
 ## Finding Packages
 
 Visual Studio Code, at this time, doesn't provide any help to locate the packages that you need. If you're having trouble finding something, then try this website.
 
 https://packagesearch.azurewebsites.net/
-
-[Switch back to Windows...]
 
 ## Targeting the .NET Framework
 

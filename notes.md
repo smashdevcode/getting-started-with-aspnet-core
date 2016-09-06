@@ -1,24 +1,6 @@
 
 # Notes
 
-
-
-## Questions
-
-What is the "Shared Framework"?
-  Sounds like there's a "Shared Framework Host" and "Shared Framework"
-  Is the "Shared Framework Host" the CLR?
-  Is the "Shared Framework" the BCL?
-
-What loggers does .NET Core or ASP.NET Core support?
-  Console logger (logs to the console... does it only work if you're running from the console?)
-  Debug logger (logs to the debug console... is that the Output window or something else?)
-  Others???
-
-Where are .NET Core files stored on Mac OS X???
-
-
-
 ## TODO
 
 Watch ASP.NET community standup videos
