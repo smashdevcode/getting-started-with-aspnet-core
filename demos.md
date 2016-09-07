@@ -1,14 +1,6 @@
 
 # Demos
 
-
-
-
-Print out high level outline???
-
-
-
-
 ## Prep
 
 * Disable power saving features
